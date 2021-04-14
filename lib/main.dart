@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'InputPage.dart';
 
 void main() => runApp(Main());

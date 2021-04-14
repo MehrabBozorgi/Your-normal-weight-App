@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bmi_calculator/CalculatorBrain.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Constans.dart';
 import 'IconContent.dart';
@@ -18,15 +19,15 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender selectedGender;
   int height = 180;
-  int wight = 60;
+  int weight = 60;
   int age = 20;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('وزن سلامت')
-      ,
-      centerTitle: true,
+      appBar: AppBar(
+        title: Text('وزن سلامت'),
+        centerTitle: true,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -37,8 +38,6 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      print('object1');
-
                       setState(() {
                         selectedGender = Gender.male;
                       });
@@ -126,7 +125,7 @@ class _InputPageState extends State<InputPage> {
                           style: KLabelTextStyle,
                         ),
                         Text(
-                          wight.toString(),
+                          weight.toString(),
                           style: KNumberTextStyle,
                         ),
                         Row(
@@ -135,7 +134,7 @@ class _InputPageState extends State<InputPage> {
                             FloatingActionButton(
                               onPressed: () {
                                 setState(() {
-                                  wight -= 2;
+                                  weight--;
                                 });
                               },
                               child: Icon(
@@ -151,7 +150,7 @@ class _InputPageState extends State<InputPage> {
                             FloatingActionButton(
                               onPressed: () {
                                 setState(() {
-                                  wight += 2;
+                                  weight++;
                                 });
                               },
                               child: Icon(Icons.add,
@@ -184,7 +183,7 @@ class _InputPageState extends State<InputPage> {
                             FloatingActionButton(
                               onPressed: () {
                                 setState(() {
-                                  age -= 2;
+                                  age--;
                                 });
                               },
                               child: Icon(
@@ -200,7 +199,7 @@ class _InputPageState extends State<InputPage> {
                             FloatingActionButton(
                               onPressed: () {
                                 setState(() {
-                                  age += 2;
+                                  age++;
                                 });
                               },
                               child: Icon(Icons.add,
@@ -217,10 +216,22 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
+          /////  Button  //////
           GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ResultPage()));
+              CalculatorBrain calc =
+                  CalculatorBrain(height: height, weight: weight);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ResultPage(
+                    bmiResult: calc.getCalculateBMI(),
+                    resultText: calc.getResult(),
+                    desc: calc.getDesc(),
+                  ),
+                ),
+              );
             },
             child: Container(
               margin: EdgeInsets.only(top: 10),
